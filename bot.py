@@ -2,7 +2,7 @@
 # Recoded by @mrismanaziz
 # t.me/SharingUserbot & t.me/Lunatic0de
 
-import pyromod.listen
+import os
 import sys
 
 from pyrogram import Client
@@ -12,15 +12,14 @@ from config import (
     APP_ID,
     CHANNEL_ID,
     FORCE_SUB_CHANNEL,
-    FORCE_SUB_GROUP,
     FORCE_SUB_CHANNEL2,
     FORCE_SUB_CHANNEL3,
+    FORCE_SUB_GROUP,
     LOGGER,
     OWNER,
     TG_BOT_TOKEN,
     TG_BOT_WORKERS,
 )
-
 
 class Bot(Client):
     def __init__(self):
@@ -37,14 +36,14 @@ class Bot(Client):
     async def start(self):
         try:
             await super().start()
-            bot_me = await self.get_me()
-            self.username = bot_me.username
-            self.bot_name = bot_me.first_name
+            usr_bot_me = await self.get_me()
+            self.username = usr_bot_me.username
+            self.namebot = usr_bot_me.first_name
             self.LOGGER(__name__).info(
-                f"TG_BOT_TOKEN detected!\n┌ First Name: {self.bot_name}\n└ Username: @{self.username}\n——"
+                f"TG_BOT_TOKEN detected!\n┌ First Name: {self.namebot}\n└ Username: @{self.username}\n——"
             )
-        except Exception as e:
-            self.LOGGER(__name__).warning(e)
+        except Exception as a:
+            self.LOGGER(__name__).warning(a)
             self.LOGGER(__name__).info(
                 "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
             )
@@ -52,71 +51,46 @@ class Bot(Client):
 
         if FORCE_SUB_CHANNEL:
             try:
-                channel_info = await self.get_chat(FORCE_SUB_CHANNEL)
-                invite_link = channel_info.invite_link
-                if not invite_link:
+                info = await self.get_chat(FORCE_SUB_CHANNEL)
+                link = info.invite_link
+                if not link:
                     await self.export_chat_invite_link(FORCE_SUB_CHANNEL)
-                    invite_link = channel_info.invite_link
-                self.invite_link = invite_link
+                    link = info.invite_link
+                self.invitelink = link
                 self.LOGGER(__name__).info(
-                    f"FORCE_SUB_CHANNEL detected!\n┌ Title: {channel_info.title}\n└ Chat ID: {channel_info.id}\n——"
+                    f"FORCE_SUB_CHANNEL detected!\n┌ Title: {info.title}\n└ Chat ID: {info.id}\n——"
                 )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
+            except Exception as a:
+                self.LOGGER(__name__).warning(a)
                 self.LOGGER(__name__).warning(
                     "Bot couldn't fetch the invite link for FORCE_SUB_CHANNEL!"
                 )
                 self.LOGGER(__name__).warning(
-                    f"Make sure @{self.username} is an admin in the specified channel. Current F-Subs Channel ID: {FORCE_SUB_CHANNEL}"
+                    f"Make sure @{self.username} is an admin in that channel. Current Channel ID for F-Subs Channel: {FORCE_SUB_CHANNEL}"
                 )
                 self.LOGGER(__name__).info(
                     "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
                 )
                 sys.exit()
 
-        if FORCE_SUB_GROUP:
-            try:
-                group_info = await self.get_chat(FORCE_SUB_GROUP)
-                invite_link = group_info.invite_link
-                if not invite_link:
-                    await self.export_chat_invite_link(FORCE_SUB_GROUP)
-                    invite_link = group_info.invite_link
-                self.invite_link2 = invite_link
-                self.LOGGER(__name__).info(
-                    f"FORCE_SUB_GROUP detected!\n┌ Title: {group_info.title}\n└ Chat ID: {group_info.id}\n——"
-                )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
-                self.LOGGER(__name__).warning(
-                    "Bot couldn't fetch the invite link for FORCE_SUB_GROUP!"
-                )
-                self.LOGGER(__name__).warning(
-                    f"Make sure @{self.username} is an admin in the specified group. Current F-Subs Group ID: {FORCE_SUB_GROUP}"
-                )
-                self.LOGGER(__name__).info(
-                    "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
-                )
-                sys.exit()
-
-        # Add conditions and logger messages for FORCE_SUB_CHANNEL2 and FORCE_SUB_CHANNEL3
         if FORCE_SUB_CHANNEL2:
             try:
-                channel_info2 = await self.get_chat(FORCE_SUB_CHANNEL2)
-                invite_link2 = channel_info2.invite_link
-                if not invite_link2:
+                info = await self.get_chat(FORCE_SUB_CHANNEL2)
+                link = info.invite_link
+                if not link:
                     await self.export_chat_invite_link(FORCE_SUB_CHANNEL2)
-                    invite_link2 = channel_info2.invite_link
-                self.invite_link2 = invite_link2
+                    link = info.invite_link
+                self.invitelink2 = link
                 self.LOGGER(__name__).info(
-                    f"FORCE_SUB_CHANNEL2 detected!\n┌ Title: {channel_info2.title}\n└ Chat ID: {channel_info2.id}\n——"
+                    f"FORCE_SUB_CHANNEL2 detected!\n┌ Title: {info.title}\n└ Chat ID: {info.id}\n——"
                 )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
+            except Exception as a:
+                self.LOGGER(__name__).warning(a)
                 self.LOGGER(__name__).warning(
                     "Bot couldn't fetch the invite link for FORCE_SUB_CHANNEL2!"
                 )
                 self.LOGGER(__name__).warning(
-                    f"Make sure @{self.username} is an admin in the specified channel. Current F-Subs Channel2 ID: {FORCE_SUB_CHANNEL2}"
+                    f"Make sure @{self.username} is an admin in that channel. Current Channel ID for F-Subs Channel 2: {FORCE_SUB_CHANNEL2}"
                 )
                 self.LOGGER(__name__).info(
                     "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
@@ -125,51 +99,53 @@ class Bot(Client):
 
         if FORCE_SUB_CHANNEL3:
             try:
-                channel_info3 = await self.get_chat(FORCE_SUB_CHANNEL3)
-                invite_link3 = channel_info3.invite_link
-                if not invite_link3:
+                info = await self.get_chat(FORCE_SUB_CHANNEL3)
+                link = info.invite_link
+                if not link:
                     await self.export_chat_invite_link(FORCE_SUB_CHANNEL3)
-                    invite_link3 = channel_info3.invite_link
-                self.invite_link3 = invite_link3
+                    link = info.invite_link
+                self.invitelink3 = link
                 self.LOGGER(__name__).info(
-                    f"FORCE_SUB_CHANNEL3 detected!\n┌ Title: {channel_info3.title}\n└ Chat ID: {channel_info3.id}\n——"
+                    f"FORCE_SUB_CHANNEL3 detected!\n┌ Title: {info.title}\n└ Chat ID: {info.id}\n——"
                 )
-            except Exception as e:
-                self.LOGGER(__name__).warning(e)
+            except Exception as a:
+                self.LOGGER(__name__).warning(a)
                 self.LOGGER(__name__).warning(
                     "Bot couldn't fetch the invite link for FORCE_SUB_CHANNEL3!"
                 )
                 self.LOGGER(__name__).warning(
-                    f"Make sure @{self.username} is an admin in the specified channel. Current F-Subs Channel3 ID: {FORCE_SUB_CHANNEL3}"
+                    f"Make sure @{self.username} is an admin in that channel. Current Channel ID for F-Subs Channel 3: {FORCE_SUB_CHANNEL3}"
                 )
                 self.LOGGER(__name__).info(
                     "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
                 )
                 sys.exit()
 
-        try:
-            db_channel = await self.get_chat(CHANNEL_ID)
-            self.db_channel = db_channel
-            test_message = await self.send_message(chat_id=db_channel.id, text="Test Message", disable_notification=True)
-            await test_message.delete()
-            self.LOGGER(__name__).info(
-                f"CHANNEL_ID Database detected!\n┌ Title: {db_channel.title}\n└ Chat ID: {db_channel.id}\n——"
-            )
-        except Exception as e:
-            self.LOGGER(__name__).warning(e)
-            self.LOGGER(__name__).warning(
-                f"Make sure @{self.username} is an admin in your database channel. Current CHANNEL_ID: {CHANNEL_ID}"
-            )
-            self.LOGGER(__name__).info(
-                "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
-            )
-            sys.exit()
+        if FORCE_SUB_GROUP:
+            try:
+                info = await self.get_chat(FORCE_SUB_GROUP)
+                link = info.invite_link
+                if not link:
+                    await self.export_chat_invite_link(FORCE_SUB_GROUP)
+                    link = info.invite_link
+                self.invitelink_group = link
+                self.LOGGER(__name__).info(
+                    f"FORCE_SUB_GROUP detected!\n┌ Title: {info.title}\n└ Chat ID: {info.id}\n——"
+                )
+            except Exception as a:
+                self.LOGGER(__name__).warning(a)
+                self.LOGGER(__name__).warning(
+                    "Bot couldn't fetch the invite link for FORCE_SUB_GROUP!"
+                )
+                self.LOGGER(__name__).warning(
+                    f"Make sure @{self.username} is an admin in that group. Current Group ID for F-Subs Group: {FORCE_SUB_GROUP}"
+                )
+                self.LOGGER(__name__).info(
+                    "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
+                )
+                sys.exit()
 
-        self.set_parse_mode("html")
-        self.LOGGER(__name__).info(
-            f"[🔥 SUCCESSFULLY ACTIVATED! 🔥]\n\nBOT Created by @{OWNER}\nIf @{OWNER} needs assistance, please ask in the group https://t.me/SharingUserbot"
-        )
+        # Rest of the code...
 
-    async def stop(self, *args):
-        await super().stop()
-        self.LOGGER(__name__).info("Bot stopped.")
+if __name__ == "__main__":
+    Bot().run()
