@@ -145,7 +145,32 @@ class Bot(Client):
                 )
                 sys.exit()
 
-        # Rest of the code...
+        try:
+            db_channel = await self.get_chat(CHANNEL_ID)
+            self.db_channel = db_channel
+            test = await self.send_message(chat_id=db_channel.id, text="Test Message", disable_notification=True)
+            await test.delete()
+            self.LOGGER(__name__).info(
+                f"CHANNEL_ID Database detected!\n┌ Title: {db_channel.title}\n└ Chat ID: {db_channel.id}\n——"
+            )
+        except Exception as e:
+            self.LOGGER(__name__).warning(e)
+            self.LOGGER(__name__).warning(
+                f"Make sure @{self.username} is an admin in your database channel. Current CHANNEL_ID: {CHANNEL_ID}"
+            )
+            self.LOGGER(__name__).info(
+                "Bot stopped. Join the group https://t.me/SharingUserbot for assistance."
+            )
+            sys.exit()
+
+        self.set_parse_mode("html")
+        self.LOGGER(__name__).info(
+            f"[🔥 BOT ACTIVATED! 🔥]\n\nBOT Created by @{OWNER}\nIf @{OWNER} needs assistance, please ask in the group https://t.me/SharingUserbot"
+        )
+
+    async def stop(self, *args):
+        await super().stop()
+        self.LOGGER(__name__).info("Bot stopped.")
 
 if __name__ == "__main__":
     Bot().run()
