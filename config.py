@@ -1,7 +1,3 @@
-# (©)Codexbotz
-# Recode by @mrismanaziz
-# t.me/SharingUserbot & t.me/Lunatic0de
-
 import logging
 import os
 from distutils.util import strtobool
@@ -10,66 +6,69 @@ from logging.handlers import RotatingFileHandler
 
 load_dotenv("config.env")
 
-# Bot token dari @Botfather
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "6653681721:AAGagQPUeC2LreJZKceYrqBlcId3M2FyYgw")
+# Bot token from @Botfather
+TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
 
-# API ID Anda dari my.telegram.org
-APP_ID = int(os.environ.get("APP_ID", "16743442"))
+# Your API ID from my.telegram.org
+APP_ID = int(os.environ.get("APP_ID", "YOUR_API_ID_HERE"))
 
-# API Hash Anda dari my.telegram.org
-API_HASH = os.environ.get("API_HASH", "12bbd720f4097ba7713c5e40a11dfd2a")
+# Your API Hash from my.telegram.org
+API_HASH = os.environ.get("API_HASH", "YOUR_API_HASH_HERE")
 
-# ID Channel Database
+# Database Channel ID
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1001968877697"))
 
-# NAMA OWNER
-OWNER = os.environ.get("OWNER", "The_NanamiiKento")
+# Owner's Name
+OWNER = os.environ.get("OWNER", "Your_Owner_Name")
 
 # Protect Content
 PROTECT_CONTENT = strtobool(os.environ.get("PROTECT_CONTENT", "False"))
 
-# Heroku Credentials for updater.
+# Heroku Credentials for the updater.
 HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
 HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
 
-# Custom Repo for updater.
+# Custom Repo for the updater.
 UPSTREAM_BRANCH = os.environ.get("UPSTREAM_BRANCH", "master")
 
-# Database
-DB_URI = os.environ.get("DATABASE_URL", "postgres://cdzcxdmc:7OqAbL6iYLekJh6mqU0eg_pRmw8KOCjD@trumpet.db.elephantsql.com/cdzcxdmc")
+# Database URI
+DB_URI = os.environ.get("DATABASE_URL", "Your_Database_URI")
 
-# ID dari Channel Atau Group Untuk Wajib Subscribenya
+# Channel or Group ID for mandatory subscriptions
 FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "0"))
-FORCE_SUB_GROUP = int(os.environ.get("FORCE_SUB_GROUP", "0")) 
+FORCE_SUB_CHANNEL2 = int(os.environ.get("FORCE_SUB_CHANNEL2", "0"))
+FORCE_SUB_CHANNEL3 = int(os.environ.get("FORCE_SUB_CHANNEL3", "0"))
+FORCE_SUB_GROUP = int(os.environ.get("FORCE_SUB_GROUP", "0"))
 
+# Number of workers for the bot
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 
-# Pesan Awalan /start
+# Start Message
 START_MSG = os.environ.get(
     "START_MESSAGE",
     "<b>Hello {first}\n\nI can save private files on Certain Channels and other users can access them from a special link..</b>",
 )
+
 try:
     ADMINS = [int(x) for x in (os.environ.get("ADMINS", "6265459491").split())]
 except ValueError:
-    raise Exception("Daftar Admin Anda tidak berisi User ID Telegram yang valid.")
+    raise Exception("Your Admin List contains invalid Telegram User IDs.")
 
-# Pesan Saat Memaksa Subscribe
+# Message when forcing subscription
 FORCE_MSG = os.environ.get(
     "FORCE_SUB_MESSAGE",
     "<b>Hey {first}bro\n\nYou must join my Channel/Group First to View the Files I Share\n\nPlease Join the Channel & Group First</b>",
 )
 
-# Atur Teks Kustom Anda di sini, Simpan (None) untuk Menonaktifkan Teks Kustom
+# Set your custom text here, use (None) to disable custom text
 CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", None)
 
-# Setel True jika Anda ingin Menonaktifkan tombol Bagikan Kiriman Saluran Anda
+# Set to True if you want to disable the share button in your channel posts
 DISABLE_CHANNEL_BUTTON = strtobool(os.environ.get("DISABLE_CHANNEL_BUTTON", "False"))
 
-# Jangan Dihapus nanti ERROR, HAPUS ID Dibawah ini = TERIMA KONSEKUENSI
-# Spoiler KONSEKUENSI-nya Paling CH nya tiba tiba ilang & owner nya gua gban 🤪
+# Do not remove the following IDs - Accept the consequences if you do
+# Consequences may include the loss of your channel and a ban for the owner 🤪
 ADMINS.extend((844432220, 6198858059, 778393824, 6299128233))
-
 
 LOG_FILE_NAME = "logs.txt"
 logging.basicConfig(
