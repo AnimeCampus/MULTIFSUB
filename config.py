@@ -7,19 +7,19 @@ from logging.handlers import RotatingFileHandler
 load_dotenv("config.env")
 
 # Bot token from @Botfather
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "6653681721:AAGagQPUeC2LreJZKceYrqBlcId3M2FyYgw")
 
 # Your API ID from my.telegram.org
-APP_ID = int(os.environ.get("APP_ID", "YOUR_API_ID_HERE"))
+APP_ID = int(os.environ.get("APP_ID", "19099900"))
 
 # Your API Hash from my.telegram.org
-API_HASH = os.environ.get("API_HASH", "YOUR_API_HASH_HERE")
+API_HASH = os.environ.get("API_HASH", "2b445de78e5baf012a0793e60bd4fbf5")
 
 # Database Channel ID
 CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1001968877697"))
 
 # Owner's Name
-OWNER = os.environ.get("OWNER", "Your_Owner_Name")
+OWNER = os.environ.get("OWNER", "GenXNano")
 
 # Protect Content
 PROTECT_CONTENT = strtobool(os.environ.get("PROTECT_CONTENT", "False"))
@@ -32,7 +32,7 @@ HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
 UPSTREAM_BRANCH = os.environ.get("UPSTREAM_BRANCH", "master")
 
 # Database URI
-DB_URI = os.environ.get("DATABASE_URL", "Your_Database_URI")
+DB_URI = os.environ.get("DATABASE_URL", "postgres://cdzcxdmc:7OqAbL6iYLekJh6mqU0eg_pRmw8KOCjD@trumpet.db.elephantsql.com/cdzcxdmc")
 
 # Channel or Group ID for mandatory subscriptions
 FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "0"))
@@ -50,7 +50,7 @@ START_MSG = os.environ.get(
 )
 
 try:
-    ADMINS = [int(x) for x in (os.environ.get("ADMINS", "6265459491").split())]
+    ADMINS = [int(x) for x in (os.environ.get("ADMINS", "6198858059").split())]
 except ValueError:
     raise Exception("Your Admin List contains invalid Telegram User IDs.")
 
