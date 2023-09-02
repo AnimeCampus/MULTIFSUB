@@ -1,7 +1,3 @@
-# Credits: @mrismanaziz
-# FROM File-Sharing-Man <https://github.com/mrismanaziz/File-Sharing-Man/>
-# t.me/SharingUserbot & t.me/Lunatic0de
-
 import os
 
 from bot import Bot
@@ -14,6 +10,8 @@ from config import (
     FORCE_MSG,
     FORCE_SUB_CHANNEL,
     FORCE_SUB_GROUP,
+    FORCE_SUB_CHANNEL2,  # Add FORCE_SUB_CHANNEL2
+    FORCE_SUB_CHANNEL3,  # Add FORCE_SUB_CHANNEL3
     HEROKU_API_KEY,
     HEROKU_APP_NAME,
     LOGGER,
@@ -24,7 +22,6 @@ from config import (
 )
 from pyrogram import filters
 from pyrogram.types import Message
-
 
 @Bot.on_message(filters.command("logs") & filters.user(ADMINS))
 async def get_bot_logs(client: Bot, m: Message):
@@ -42,10 +39,14 @@ async def get_bot_logs(client: Bot, m: Message):
     elif not os.path.exists(bot_log_path):
         await m.reply_text("❌ <b>Tidak ada log yang ditemukan!</b>")
 
-
 @Bot.on_message(filters.command("vars") & filters.user(ADMINS))
 async def varsFunc(client: Bot, message: Message):
     Man = await message.reply_text("Tunggu Sebentar...")
+
+    # Add conditions for FORCE_SUB_CHANNEL2 and FORCE_SUB_CHANNEL3
+    force_sub_channel2 = "<code>{}</code>".format(FORCE_SUB_CHANNEL2)
+    force_sub_channel3 = "<code>{}</code>".format(FORCE_SUB_CHANNEL3)
+
     text = f"""<u><b>CONFIG VARS</b></u> @{client.username}
 APP_ID = <code>{APP_ID}</code>
 API_HASH = <code>{API_HASH}</code>
@@ -58,6 +59,8 @@ ADMINS = <code>{ADMINS}</code>
 CHANNEL_ID = <code>{CHANNEL_ID}</code>
 FORCE_SUB_CHANNEL = <code>{FORCE_SUB_CHANNEL}</code>
 FORCE_SUB_GROUP = <code>{FORCE_SUB_GROUP}</code>
+FORCE_SUB_CHANNEL2 = {force_sub_channel2}
+FORCE_SUB_CHANNEL3 = {force_sub_channel3}
 PROTECT_CONTENT = <code>{PROTECT_CONTENT}</code>
 START_MSG = <code>{START_MSG}</code>
 FORCE_MSG = <code>{FORCE_MSG}</code>
