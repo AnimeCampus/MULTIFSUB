@@ -104,10 +104,12 @@ def fsub_button(client, message):
         except IndexError:
             pass
         return buttons
+    if FORCE_SUB_CHANNEL and not FORCE_SUB_GROUP:
+        buttons = [
             [
-                InlineKeyboardButton(text="Channel 1", url=client.invitelink),
+                InlineKeyboardButton(text="Channel 1", url=client.invitelink3),
             ],
-        ]
+        ]        
         try:
             buttons.append(
                 [
