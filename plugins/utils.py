@@ -44,8 +44,8 @@ async def varsFunc(client: Bot, message: Message):
     Man = await message.reply_text("Tunggu Sebentar...")
 
     # Add conditions for FORCE_SUB_CHANNEL2 and FORCE_SUB_CHANNEL3
-    force_sub_channel2 = "<code>{}</code>".format(FORCE_SUB_CHANNEL2)
-    force_sub_channel3 = "<code>{}</code>".format(FORCE_SUB_CHANNEL3)
+    FORCE_SUB_CHANNEL2 = "<code>{}</code>".format(FORCE_SUB_CHANNEL2)
+    FORCE_SUB_CHANNEL3 = "<code>{}</code>".format(FORCE_SUB_CHANNEL3)
 
     text = f"""<u><b>CONFIG VARS</b></u> @{client.username}
 APP_ID = <code>{APP_ID}</code>
