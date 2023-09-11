@@ -250,4 +250,22 @@ async def get_uptime(client, m: Message):
         f"🕒 <b>Uptime:</b> <code>{uptime}</code>\n"
         f"🕐 <b>Start Time:</b> <code>{START_TIME_ISO}</code>"
     )
+
+@Bot.on_message(filters.command("report_bug"))
+async def report_bug_command(client: Bot, message: Message):
+    admin_username = "@SexyNano"  # Replace with the actual admin's username
+    report_text = f"""
+<b>Report a Bug:</b>
+
+If you encounter any issues or bugs while using this bot, please report them to us.
+- You can report bugs by sending a message to {admin_username} or by clicking on the link below:
+- <a href="https://t.me/{admin_username}">Nano</a>
+- Please provide detailed information about the issue you encountered.
+
+Your feedback helps us improve the bot. Thank you!
+    """
+
+    await message.reply_text(
+        report_text, parse_mode="html", quote=True, disable_web_page_preview=True
+    )
     
