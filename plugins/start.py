@@ -251,7 +251,7 @@ async def get_uptime(client, m: Message):
         f"🕐 <b>Start Time:</b> <code>{START_TIME_ISO}</code>"
     )
 
-@Bot.on_message(filters.command("report_bug"))
+@Bot.on_message(filters.command("bug"))
 async def report_bug_command(client: Bot, message: Message):
     admin_username = "@SexyNano"  # Replace with the actual admin's username
     report_text = f"""
