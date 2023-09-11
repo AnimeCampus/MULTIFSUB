@@ -1,3 +1,7 @@
+                    # (©)Codexbotz
+# Recode by @mrismanaziz
+# t.me/SharingUserbot & t.me/Lunatic0de
+
 import asyncio
 from datetime import datetime
 from time import time
@@ -55,18 +59,14 @@ async def start_command(client: Bot, message: Message):
         await add_user(id, user_name)
     except:
         pass
-
     text = message.text
-
     if len(text) > 7:
         try:
             base64_string = text.split(" ", 1)[1]
         except BaseException:
             return
-
         string = await decode(base64_string)
         argument = string.split("-")
-
         if len(argument) == 3:
             try:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
@@ -88,33 +88,26 @@ async def start_command(client: Bot, message: Message):
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
             except BaseException:
                 return
-
-        temp_msg = await message.reply("<code>Wait A Second...</code>")
+        temp_msg = await message.reply("<code>Tunggu Sebentar...</code>")
         try:
             messages = await get_messages(client, ids)
         except BaseException:
-            await message.reply_text("<b>An Error Has Occurred </b>😔")
+            await message.reply_text("<b>Telah Terjadi Error </b>🥺")
             return
         await temp_msg.delete()
 
         for msg in messages:
-            if bool(CUSTOM_CAPTION) and bool(msg.document):
+
+            if bool(CUSTOM_CAPTION) & bool(msg.document):
                 caption = CUSTOM_CAPTION.format(
                     previouscaption=msg.caption.html if msg.caption else "",
                     filename=msg.document.file_name,
                 )
+
             else:
                 caption = msg.caption.html if msg.caption else ""
 
             reply_markup = msg.reply_markup if DISABLE_CHANNEL_BUTTON else None
-
-            if reply_markup is not None:
-                inline_keyboard = reply_markup.inline_keyboard
-                if inline_keyboard:
-                    for r in inline_keyboard:
-                        # Handle each inline keyboard button if needed
-                        pass
-
             try:
                 await msg.copy(
                     chat_id=message.from_user.id,
@@ -135,7 +128,6 @@ async def start_command(client: Bot, message: Message):
                 )
             except BaseException:
                 pass
-
     else:
         out = start_button(client)
         await message.reply_text(
@@ -152,6 +144,10 @@ async def start_command(client: Bot, message: Message):
             disable_web_page_preview=True,
             quote=True,
         )
+
+
+    return
+
 
 @Bot.on_message(filters.command("start") & filters.private)
 async def not_joined(client: Bot, message: Message):
@@ -174,10 +170,11 @@ async def not_joined(client: Bot, message: Message):
 @Bot.on_message(filters.command(["users", "stats"]) & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
     msg = await client.send_message(
-        chat_id=message.chat.id, text="🔄 <code>Processing ...</code>"
+        chat_id=message.chat.id, text="<code>Processing ...</code>"
     )
     users = await full_userbase()
-    await msg.edit(f"👥 <b>{len(users)} Users use this bot</b>")
+    await msg.edit(f"{len(users)} <b>Pengguna menggunakan bot ini</b>")
+
 
 @Bot.on_message(filters.command("broadcast") & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
@@ -191,7 +188,7 @@ async def send_text(client: Bot, message: Message):
         unsuccessful = 0
 
         pls_wait = await message.reply(
-            "📢 <code>Broadcasting Message...</code>"
+            "<code>Broadcasting Message Tunggu Sebentar...</code>"
         )
         for row in query:
             chat_id = int(row[0])
@@ -210,21 +207,20 @@ async def send_text(client: Bot, message: Message):
                 except BaseException:
                     unsuccessful += 1
                 total += 1
-
-        status = f"""<b><u>Broadcast Summary</u>
-👥 Number of Users: <code>{total}</code>
-✅ Success: <code>{successful}</code>
-❌ Failed: <code>{unsuccessful}</code>
-🚫 User blocked: <code>{blocked}</code>
-🗑️ Deleted Account: <code>{deleted}</code></b>"""
+        status = f"""<b><u>Berhasil Broadcast</u>
+Jumlah Pengguna: <code>{total}</code>
+Berhasil: <code>{successful}</code>
+Gagal: <code>{unsuccessful}</code>
+Pengguna diblokir: <code>{blocked}</code>
+Akun Terhapus: <code>{deleted}</code></b>"""
         return await pls_wait.edit(status)
-
     else:
         msg = await message.reply(
-            "<code>Use this command by replying to the telegram message you want to broadcast.</code>"
+            "<code>Gunakan Perintah ini Harus Sambil Reply ke pesan telegram yang ingin di Broadcast.</code>"
         )
         await asyncio.sleep(8)
         await msg.delete()
+
 
 @Bot.on_message(filters.command("ping"))
 async def ping_pong(client, m: Message):
@@ -232,13 +228,14 @@ async def ping_pong(client, m: Message):
     current_time = datetime.utcnow()
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
-    m_reply = await m.reply_text("🏓 <b>Pinging...</b>")
+    m_reply = await m.reply_text("Pinging...")
     delta_ping = time() - start
     await m_reply.edit_text(
-        "🏓 <b>PONG!</b>\n"
-        f"🕒 <b>Ping:</b> <code>{delta_ping * 1000:.3f}ms</code>\n"
-        f"🕐 <b>Uptime:</b> <code>{uptime}</code>"
+        "<b>PONG!!</b>🏓 \n"
+        f"<b>• Pinger -</b> <code>{delta_ping * 1000:.3f}ms</code>\n"
+        f"<b>• Uptime -</b> <code>{uptime}</code>\n"
     )
+
 
 @Bot.on_message(filters.command("uptime"))
 async def get_uptime(client, m: Message):
@@ -247,18 +244,18 @@ async def get_uptime(client, m: Message):
     uptime = await _human_time_duration(int(uptime_sec))
     await m.reply_text(
         "🤖 <b>Bot Status:</b>\n"
-        f"🕒 <b>Uptime:</b> <code>{uptime}</code>\n"
-        f"🕐 <b>Start Time:</b> <code>{START_TIME_ISO}</code>"
+        f"• <b>Uptime:</b> <code>{uptime}</code>\n"
+        f"• <b>Start Time:</b> <code>{START_TIME_ISO}</code>"
     )
 
 @Bot.on_message(filters.command("bug"))
 async def report_bug_command(client: Bot, message: Message):
-    admin_username = "@SexyNano"  # Replace with the actual admin's username
+    admin_username = "SexyNano"  # Replace with the actual admin's username
     report_text = f"""
 <b>Report a Bug:</b>
 
 If you encounter any issues or bugs while using this bot, please report them to us.
-- You can report bugs by sending a message to {admin_username} or by clicking on the link below:
+- You can report bugs by sending a message to @{admin_username} or by clicking on the link below:
 - <a href="https://t.me/{admin_username}">Nano</a>
 - Please provide detailed information about the issue you encountered.
 
