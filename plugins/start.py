@@ -55,7 +55,7 @@ async def start_command(client: Bot, message: Message):
         pass
 
     # Add the image to the start message
-    img_url = "https://graph.org/file/e96c3ddf5a433368cddda.jpg"  # Replace with the actual image URL
+    img_url = "plugins/IMG_20230912_015440_061.jpg"  # Replace with the actual image URL
 
     # Create a photo message with the image
     await message.reply_photo(
