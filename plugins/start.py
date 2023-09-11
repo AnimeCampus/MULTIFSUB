@@ -108,26 +108,48 @@ async def start_command(client: Bot, message: Message):
                 caption = msg.caption.html if msg.caption else ""
 
             reply_markup = msg.reply_markup if DISABLE_CHANNEL_BUTTON else None
-            try:
-                await msg.copy(
-                    chat_id=message.from_user.id,
-                    caption=caption,
-                    parse_mode="html",
-                    protect_content=PROTECT_CONTENT,
-                    reply_markup=reply_markup,
-                )
-                await asyncio.sleep(0.5)
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
-                await msg.copy(
-                    chat_id=message.from_user.id,
-                    caption=caption,
-                    parse_mode="html",
-                    protect_content=PROTECT_CONTENT,
-                    reply_markup=reply_markup,
-                )
-            except BaseException:
-                pass
+
+# Check if reply_markup is not None before using it
+if reply_markup is not None:
+    try:
+        await msg.copy(
+            chat_id=message.from_user.id,
+            caption=caption,
+            parse_mode="html",
+            protect_content=PROTECT_CONTENT,
+            reply_markup=reply_markup,
+        )
+        await asyncio.sleep(0.5)
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+        await msg.copy(
+            chat_id=message.from_user.id,
+            caption=caption,
+            parse_mode="html",
+            protect_content=PROTECT_CONTENT,
+            reply_markup=reply_markup,
+        )
+    except BaseException:
+        pass
+else:
+    try:
+        await msg.copy(
+            chat_id=message.from_user.id,
+            caption=caption,
+            parse_mode="html",
+            protect_content=PROTECT_CONTENT,
+        )
+        await asyncio.sleep(0.5)
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+        await msg.copy(
+            chat_id=message.from_user.id,
+            caption=caption,
+            parse_mode="html",
+            protect_content=PROTECT_CONTENT,
+        )
+    except BaseException:
+        pass
     else:
         out = start_button(client)
         await message.reply_text(
