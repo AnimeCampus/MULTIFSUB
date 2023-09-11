@@ -5,7 +5,7 @@ from git import Repo
 from git.exc import InvalidGitRepositoryError
 from pyrogram import Client, filters
 from pyrogram.types import Message
-
+from bot import Bot
 from config import ADMINS, LOGGER
 
 UPSTREAM_REPO = "https://github.com/PyroUserBot/MULTIFSUB"
