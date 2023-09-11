@@ -139,7 +139,7 @@ else:
             parse_mode="html",
             protect_content=PROTECT_CONTENT,
         )
-        await asyncio.sleep(0.5)
+        
     except FloodWait as e:
         await asyncio.sleep(e.x)
         await msg.copy(
