@@ -1,7 +1,3 @@
-# (©)Codexbotz
-# Recode by @mrismanaziz
-# t.me/SharingUserbot & t.me/Lunatic0de
-
 import asyncio
 from datetime import datetime
 from time import time
@@ -59,20 +55,25 @@ async def start_command(client: Bot, message: Message):
         await add_user(id, user_name)
     except:
         pass
+
     text = message.text
+
     if len(text) > 7:
         try:
             base64_string = text.split(" ", 1)[1]
         except BaseException:
             return
+
         string = await decode(base64_string)
         argument = string.split("-")
+
         if len(argument) == 3:
             try:
                 start = int(int(argument[1]) / abs(client.db_channel.id))
                 end = int(int(argument[2]) / abs(client.db_channel.id))
             except BaseException:
                 return
+
             if start <= end:
                 ids = range(start, end + 1)
             else:
@@ -88,68 +89,67 @@ async def start_command(client: Bot, message: Message):
                 ids = [int(int(argument[1]) / abs(client.db_channel.id))]
             except BaseException:
                 return
+
         temp_msg = await message.reply("<code>Wait A Second...</code>")
+
         try:
             messages = await get_messages(client, ids)
         except BaseException:
-            await message.reply_text("<b>An Error Has Occurred </b>🥺")
+            await message.reply_text("<b>An Error Has Occurred</b> 🥺")
             return
+
         await temp_msg.delete()
 
         for msg in messages:
-
             if bool(CUSTOM_CAPTION) & bool(msg.document):
                 caption = CUSTOM_CAPTION.format(
                     previouscaption=msg.caption.html if msg.caption else "",
                     filename=msg.document.file_name,
                 )
-
             else:
                 caption = msg.caption.html if msg.caption else ""
 
             reply_markup = msg.reply_markup if DISABLE_CHANNEL_BUTTON else None
 
-# Check if reply_markup is not None before using it
-if reply_markup is not None:
-    try:
-        await msg.copy(
-            chat_id=message.from_user.id,
-            caption=caption,
-            parse_mode="html",
-            protect_content=PROTECT_CONTENT,
-            reply_markup=reply_markup,
-        )
-        await asyncio.sleep(0.5)
-    except FloodWait as e:
-        await asyncio.sleep(e.x)
-        await msg.copy(
-            chat_id=message.from_user.id,
-            caption=caption,
-            parse_mode="html",
-            protect_content=PROTECT_CONTENT,
-            reply_markup=reply_markup,
-        )
-    except BaseException:
-        pass
-else:
-    try:
-        await msg.copy(
-            chat_id=message.from_user.id,
-            caption=caption,
-            parse_mode="html",
-            protect_content=PROTECT_CONTENT,
-        )
-        
-    except FloodWait as e:
-        await asyncio.sleep(e.x)
-        await msg.copy(
-            chat_id=message.from_user.id,
-            caption=caption,
-            parse_mode="html",
-            protect_content=PROTECT_CONTENT,
-        )
-    except BaseException:
-        pass
+            if reply_markup is not None:
+                try:
+                    await msg.copy(
+                        chat_id=message.from_user.id,
+                        caption=caption,
+                        parse_mode="html",
+                        protect_content=PROTECT_CONTENT,
+                        reply_markup=reply_markup,
+                    )
+                    await asyncio.sleep(0.5)
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    await msg.copy(
+                        chat_id=message.from_user.id,
+                        caption=caption,
+                        parse_mode="html",
+                        protect_content=PROTECT_CONTENT,
+                        reply_markup=reply_markup,
+                    )
+                except BaseException:
+                    pass
+            else:
+                try:
+                    await msg.copy(
+                        chat_id=message.from_user.id,
+                        caption=caption,
+                        parse_mode="html",
+                        protect_content=PROTECT_CONTENT,
+                    )
+                except FloodWait as e:
+                    await asyncio.sleep(e.x)
+                    await msg.copy(
+                        chat_id=message.from_user.id,
+                        caption=caption,
+                        parse_mode="html",
+                        protect_content=PROTECT_CONTENT,
+                    )
+                except BaseException:
+                    pass
     else:
         out = start_button(client)
         await message.reply_text(
@@ -166,10 +166,6 @@ else:
             disable_web_page_preview=True,
             quote=True,
         )
-
-
-    return
-
 
 @Bot.on_message(filters.command("start") & filters.private)
 async def not_joined(client: Bot, message: Message):
@@ -189,15 +185,13 @@ async def not_joined(client: Bot, message: Message):
         disable_web_page_preview=True,
     )
 
-
 @Bot.on_message(filters.command(["users", "stats"]) & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
     msg = await client.send_message(
         chat_id=message.chat.id, text="<code>Processing ...</code>"
     )
     users = await full_userbase()
-    await msg.edit(f"{len(users)} <b>Users use this boat</b>")
-
+    await msg.edit(f"{len(users)} <b>Users use this bot</b>")
 
 @Bot.on_message(filters.command("broadcast") & filters.user(ADMINS))
 async def send_text(client: Bot, message: Message):
@@ -213,6 +207,7 @@ async def send_text(client: Bot, message: Message):
         pls_wait = await message.reply(
             "<code>Broadcasting Message...</code>"
         )
+
         for row in query:
             chat_id = int(row[0])
             if chat_id not in ADMINS:
@@ -230,6 +225,7 @@ async def send_text(client: Bot, message: Message):
                 except BaseException:
                     unsuccessful += 1
                 total += 1
+        
         status = f"""<b><u>Successful Broadcast</u>
 ───────────────────────
  Number of Users: <code>{total}</code>
@@ -237,14 +233,14 @@ async def send_text(client: Bot, message: Message):
  Failed: <code>{unsuccessful}</code>
  User blocked: <code>{blocked}</code>
  Deleted Account: <code>{deleted}</code></b>"""
+        
         return await pls_wait.edit(status)
     else:
         msg = await message.reply(
-            "<code>Use this command must be replay to the telegram message that you want to broadcast.</code>"
+            "<code>Use this command by replying to the Telegram message that you want to broadcast.</code>"
         )
         await asyncio.sleep(8)
         await msg.delete()
-
 
 @Bot.on_message(filters.command("ping"))
 async def ping_pong(client, m: Message):
@@ -260,7 +256,6 @@ async def ping_pong(client, m: Message):
         f"<b>• Uptime -</b> <code>{uptime}</code>\n"
     )
 
-
 @Bot.on_message(filters.command("uptime"))
 async def get_uptime(client, m: Message):
     current_time = datetime.utcnow()
@@ -270,4 +265,4 @@ async def get_uptime(client, m: Message):
         "🤖 <b>Bot Status:</b>\n"
         f"• <b>Uptime:</b> <code>{uptime}</code>\n"
         f"• <b>Start Time:</b> <code>{START_TIME_ISO}</code>"
-                                           )
+    )
