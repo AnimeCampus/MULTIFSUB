@@ -78,6 +78,86 @@ async def start_command(client: Bot, message: Message):
                 return
             if start <= end:
                 ids = range(start, end + 1)
+import asyncio
+from datetime import datetime
+from time import time
+
+from bot import Bot
+from config import (
+    ADMINS,
+    CUSTOM_CAPTION,
+    DISABLE_CHANNEL_BUTTON,
+    FORCE_MSG,
+    PROTECT_CONTENT,
+    START_MSG,
+)
+from database.sql import add_user, full_userbase, query_msg
+from pyrogram import filters
+from pyrogram.errors import FloodWait, InputUserDeactivated, UserIsBlocked
+from pyrogram.types import InlineKeyboardMarkup, Message
+
+from helper_func import decode, get_messages, subsall, subsch, subsgc
+
+from .button import fsub_button, start_button
+
+START_TIME = datetime.utcnow()
+START_TIME_ISO = START_TIME.replace(microsecond=0).isoformat()
+TIME_DURATION_UNITS = (
+    ("week", 60 * 60 * 24 * 7),
+    ("day", 60**2 * 24),
+    ("hour", 60**2),
+    ("min", 60),
+    ("sec", 1),
+)
+
+async def _human_time_duration(seconds):
+    if seconds == 0:
+        return "inf"
+    parts = []
+    for unit, div in TIME_DURATION_UNITS:
+        amount, seconds = divmod(int(seconds), div)
+        if amount > 0:
+            parts.append(f'{amount} {unit}{"" if amount == 1 else "s"}')
+    return ", ".join(parts)
+
+@Bot.on_message(filters.command("start") & filters.private & subsall & subsch & subsgc)
+async def start_command(client: Bot, message: Message):
+    id = message.from_user.id
+    user_name = (
+        f"@{message.from_user.username}"
+        if message.from_user.username
+        else None
+    )
+
+    try:
+        await add_user(id, user_name)
+    except:
+        pass
+
+    # Add the image to the start message
+    img_url = "https://example.com/your_image.jpg"  # Replace with the actual image URL
+
+    # Create a photo message with the image
+    await message.reply_photo(
+        photo=img_url,
+        parse_mode="html"
+    )
+    text = message.text
+    if len(text) > 7:
+        try:
+            base64_string = text.split(" ", 1)[1]
+        except BaseException:
+            return
+        string = await decode(base64_string)
+        argument = string.split("-")
+        if len(argument) == 3:
+            try:
+                start = int(int(argument[1]) / abs(client.db_channel.id))
+                end = int(int(argument[2]) / abs(client.db_channel.id))
+            except BaseException:
+                return
+            if start <= end:
+                ids = range(start, end + 1)
             else:
                 ids = []
                 i = start
@@ -132,9 +212,9 @@ async def start_command(client: Bot, message: Message):
             except BaseException:
                 pass
     else:
-        out = start_button(client)
-        await message.reply_text(
-            text=START_MSG.format(
+        buttons = fsub_button(client, message)
+        await message.reply(
+            text=FORCE_MSG.format(
                 first=message.from_user.first_name,
                 last=message.from_user.last_name,
                 username=f"@{message.from_user.username}"
@@ -143,14 +223,10 @@ async def start_command(client: Bot, message: Message):
                 mention=message.from_user.mention,
                 id=message.from_user.id,
             ),
-            reply_markup=InlineKeyboardMarkup(out),
-            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(buttons),
             quote=True,
+            disable_web_page_preview=True,
         )
-
-
-    return
-
 
 @Bot.on_message(filters.command("start") & filters.private)
 async def not_joined(client: Bot, message: Message):
@@ -169,6 +245,9 @@ async def not_joined(client: Bot, message: Message):
         quote=True,
         disable_web_page_preview=True,
     )
+
+# Rest of your code remains the same...
+
 
 @Bot.on_message(filters.command(["users", "stats"]) & filters.user(ADMINS))
 async def get_users(client: Bot, message: Message):
