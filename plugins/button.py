@@ -32,7 +32,7 @@ def start_button(client):
             ],
         ]
         return buttons
-    if FORCE_SUB_CHANNEL and FORCE_SUB_GROUP and not FORCE_SUB_CHANNEL2 and not FORCE_SUB_CHANNEL3::
+    if FORCE_SUB_CHANNEL and FORCE_SUB_GROUP and not FORCE_SUB_CHANNEL2 and not FORCE_SUB_CHANNEL3:
         buttons = [
             [
                 InlineKeyboardButton(text="Donate", callback_data="help"),
