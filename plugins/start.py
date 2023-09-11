@@ -1,7 +1,3 @@
-                    # (©)Codexbotz
-# Recode by @mrismanaziz
-# t.me/SharingUserbot & t.me/Lunatic0de
-
 import asyncio
 from datetime import datetime
 from time import time
@@ -34,7 +30,6 @@ TIME_DURATION_UNITS = (
     ("sec", 1),
 )
 
-
 async def _human_time_duration(seconds):
     if seconds == 0:
         return "inf"
@@ -44,7 +39,6 @@ async def _human_time_duration(seconds):
         if amount > 0:
             parts.append(f'{amount} {unit}{"" if amount == 1 else "s"}')
     return ", ".join(parts)
-
 
 @Bot.on_message(filters.command("start") & filters.private & subsall & subsch & subsgc)
 async def start_command(client: Bot, message: Message):
@@ -59,6 +53,15 @@ async def start_command(client: Bot, message: Message):
         await add_user(id, user_name)
     except:
         pass
+
+    # Add the image to the start message
+    img_url = "https://example.com/your_image.jpg"  # Replace with the actual image URL
+
+    # Create a photo message with the image
+    await message.reply_photo(
+        photo=img_url,
+        parse_mode="html"
+    )
     text = message.text
     if len(text) > 7:
         try:
